@@ -1,6 +1,7 @@
 name: Windows Build and Upload
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -102,10 +103,10 @@ jobs:
         )
 
         $oldString1 = [System.Text.Encoding]::ASCII.GetBytes("Cheat Engine") + 0
-        $newString1 = [System.Text.Encoding]::ASCII.GetBytes("XXXXX YYYYYY") + 0
+        $newString1 = [System.Text.Encoding]::ASCII.GetBytes("Happy Ending") + 0
 
         $oldString2 = [System.Text.Encoding]::ASCII.GetBytes("CheatEngine") + 0
-        $newString2 = [System.Text.Encoding]::ASCII.GetBytes("CCCCCCCCCCC") + 0
+        $newString2 = [System.Text.Encoding]::ASCII.GetBytes("HappyEnding") + 0
 
         foreach ($filePath in $filesToModify) {
             if (Test-Path $filePath) {
@@ -125,3 +126,10 @@ jobs:
       with:
         name: CheatEngine-Windows-Build
         path: Cheat Engine/bin
+  
+    - name: Create Release
+    # if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+      shell: cmd
+      run: |
+          7z a cheat-engine-x64.zip ".\Cheat Engine\bin"
+          gh release create 7.6.0 .\cheat-engine-x64.zip --notes "just a mirror with (hopefully) no CCleaner adware" 
