@@ -128,8 +128,9 @@ jobs:
         path: Cheat Engine/bin
   
     - name: Create Release
-    # if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+      env:
+        GH_TOKEN: ${{ github.token }}
       shell: cmd
       run: |
           7z a cheat-engine-x64.zip ".\Cheat Engine\bin"
-          gh release create 7.6.0 .\cheat-engine-x64.zip --notes "just a mirror with (hopefully) no CCleaner adware" 
+          gh release create 7.5.0.7712 .\cheat-engine-x64.zip --notes "just a compiled mirror without all of the bundled adware" 
